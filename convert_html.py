@@ -5,7 +5,7 @@ import gzip
 def convert_html_to_header():
     # Build the vue project
     print("Building the Vue project...")
-    subprocess.run("cd microfinal-web; npm run build", shell=True, check=True)
+    subprocess.run("cd microfinal-web; npm i; npm run build", shell=True, check=True)
 
     html_file = "microfinal-web/dist/index.html"
     header_file = "include/index_html.h"
@@ -54,6 +54,6 @@ else:
     try:
         from SCons.Script import Import
         Import("env")
-        env.AddPreAction("buildprog", lambda *args, **kwargs: convert_html_to_header())
+        env.AddPreAction("${BUILD_DIR}/src/main.cpp.o", lambda *args, **kwargs: convert_html_to_header())
     except ImportError:
         print("Warning: SCons environment not found, script may not be running in PlatformIO context")
