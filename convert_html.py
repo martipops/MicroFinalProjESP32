@@ -54,6 +54,6 @@ else:
     try:
         from SCons.Script import Import
         Import("env")
-        env.AddPreAction("${BUILD_DIR}/src/main.cpp.o", lambda *args, **kwargs: convert_html_to_header())
+        env.AddPreAction("$PROGPATH", lambda *args, **kwargs: convert_html_to_header())
     except ImportError:
         print("Warning: SCons environment not found, script may not be running in PlatformIO context")

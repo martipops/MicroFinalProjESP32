@@ -2,7 +2,6 @@
   <div class="blend">
     <JSCharting :style="chartStyle" :options="chartOptions"></JSCharting>
   </div>
-  <button @click="add()"> ADD </button>
 </template>
 
 <script lang="ts">
@@ -21,18 +20,22 @@ export default {
     },
     width: {
       type: String,
-      default: () => '40rem'
+      default: () => '100%'
     },
     height: {
       type: String,
       default: () => '30rem'
+    },
+    title: {
+      type: String,
+      default: () => 'Sensor Readings'
     }
   },
   data() {
     return {
       chartOptions: {
         type: 'line',
-        title: { label: { text: 'Sensor Readings' } },
+        title: { label: { text: this.title } },
         legend: {
           visible: false,
         },
@@ -99,6 +102,7 @@ export default {
 .blend {
   mix-blend-mode: screen;
   filter: invert(1);
+  width: 100%;
 }
 
 </style>
