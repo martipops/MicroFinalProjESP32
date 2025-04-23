@@ -4,6 +4,9 @@
 3. Rename `include/secrets.h.example` to `secrets.h` and change the necessary information.
 4. Run the setup commands
 ```
-python convert_html.py
+cd web
+npm i; npm run build
+cd ..
+python convert_html.py --nobuild
 ```
 5. Build and Upload the PlatformIO project.
