@@ -5,9 +5,9 @@ import gzip
 def convert_html_to_header():
     # Build the vue project
     print("Building the Vue project...")
-    subprocess.run("cd microfinal-web; npm i; npm run build", shell=True, check=True)
+    subprocess.run("cd web; npm i; npm run build", shell=True, check=True)
 
-    html_file = "microfinal-web/dist/index.html"
+    html_file = "web/dist/index.html"
     header_file = "include/index_html.h"
     
     if os.path.exists(html_file):

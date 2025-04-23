@@ -1,0 +1,53 @@
+#include <Arduino.h>
+#include "wifi_manager.h"
+#include "lora_handler.h"
+#include "web_server.h"
+#include "message_buffer.h"
+
+void setup() {
+  // Start serial communication
+  Serial.begin(115200);
+  Serial.println();
+  
+  // Initialize message buffer
+  initMessageBuffer();
+  
+  // Initialize LoRa
+  initLoRa();
+  
+  // Try to connect to WiFi first, fallback to AP mode if needed
+  if (!setupWiFi()) {
+    setupAP();
+  }
+
+  // Initialize and start the web server
+  initWebServer();
+
+  // Create tasks
+  xTaskCreatePinnedToCore(
+    loraTask,          // Function to implement the task
+    "LoRaTask",        // Name of the task
+    4096,              // Stack size (bytes)
+    NULL,              // Task input parameter
+    1,                 // Priority of the task
+    &loraTaskHandle,   // Task handle
+    0                  // Core where the task should run (0 = PRO CPU)
+  );
+  
+  xTaskCreatePinnedToCore(
+    serverTask,         // Function to implement the task
+    "ServerTask",       // Name of the task
+    8192,               // Stack size (bytes)
+    NULL,               // Task input parameter
+    1,                  // Priority of the task
+    &serverTaskHandle,  // Task handle
+    1                   // Core where the task should run (1 = APP CPU)
+  );
+  
+  Serial.println("Tasks started");
+}
+
+void loop() {
+  // Main loop is now empty as tasks handle everything
+  vTaskDelay(1000 / portTICK_PERIOD_MS);
+}
