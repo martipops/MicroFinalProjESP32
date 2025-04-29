@@ -2,3 +2,4 @@
 .vscode/*
 include/secrets.h
 include/index_html.h
+web/node_modules
